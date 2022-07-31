@@ -14,4 +14,14 @@ public class MainController {
     public String loginPage() {
         return "login";
     }
+
+    @GetMapping("/backOffice")
+    public String backOfficePage() {
+        return "back-office";
+    }
+
+    @GetMapping("/professor-index")
+    public String professorIndexPage() {
+        return "professor-index";
+    }
 }
