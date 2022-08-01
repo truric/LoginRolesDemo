@@ -1,0 +1,30 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <div th:replace="layout/header :: myheader"></div>
+</head>
+<body>
+    <div th:replace="layout/navbar :: navbar"></div>
+
+    <div th:switch="${#authentication}? ${#authorization.expression('isAuthenticated()')} : ${false}">
+        <span th:case="${false}">User is not logged in</span>
+        <span th:case="${true}">
+            <div class="alert alert-success" role="alert">
+              User successfully logged in with Role:
+                <b><span th:text="${#authentication.getPrincipal().authorities}"></span></b>
+            </div>
+        </span>
+    </div>
+
+    <div sec:authorize-url="/admin">
+        <h1>Admin Back-Office Index Page</h1>
+    </div>
+
+    <div sec:authorize-url="/professor">
+        <h1>Professor Back-Office Index Page</h1>
+    </div>
+
+    <div th:insert="layout/footer :: footer"></div>
+</body>
+</html>

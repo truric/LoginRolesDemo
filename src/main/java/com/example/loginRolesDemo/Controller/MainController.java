@@ -2,26 +2,27 @@ package com.example.loginRolesDemo.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MainController {
     @GetMapping(value={"", "/", "index", "home"})
     public String mainPage() {
-        return "index";
+        return "pages/index";
     }
 
     @GetMapping("/login")
     public String loginPage() {
-        return "login";
+        return "pages/login";
     }
 
-    @GetMapping("/backOffice")
+    @GetMapping(value={"/backOffice", "/back-office", "/professor-index"})
     public String backOfficePage() {
-        return "back-office";
+        return "back-office/index";
     }
 
-    @GetMapping("/professor-index")
-    public String professorIndexPage() {
-        return "professor-index";
+    @GetMapping("/profile")
+    public String profilePage() {
+        return "pages/profile";
     }
 }

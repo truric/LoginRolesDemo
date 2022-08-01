@@ -26,19 +26,25 @@ public class AdminSecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception{
-        http.authorizeRequests().antMatchers("/").permitAll();
+        http.authorizeRequests().antMatchers("/", "/index", "/home").permitAll();
 
-        http.antMatcher("/admin/**")
-                .authorizeRequests().anyRequest().hasAuthority("ADMIN")
-                .and()
+        http.antMatcher("/**")
+                .authorizeRequests()
+                .antMatchers("/admin").hasAnyAuthority("ADMIN")
+                .antMatchers("/professor").hasAnyAuthority("PROFESSOR")
+                .antMatchers("/backOffice").hasAnyAuthority("ADMIN", "PROFESSOR")
+                .antMatchers("/profile").hasAnyAuthority("PROFESSOR", "STUDENT")
+                .anyRequest().authenticated();
+        http
                 .formLogin()
                 .loginPage("/login").usernameParameter("email") // on template add   name="email"   on email input tag
 			.loginProcessingUrl("/login")  // template href path
-			.defaultSuccessUrl("/back-office")  // redirect after successful login, template/GetMapping name/route
+            .defaultSuccessUrl("/")
 			.permitAll()
                 .and()
-                .logout().logoutUrl("/admin/logout")
-                .logoutSuccessUrl("/");
+                .logout()
+                .logoutSuccessUrl("/login")
+                .permitAll();
 
         return http.build();
 //	now any User/Role can access the app without having to go through login page, which is the default behavior of spring security dep.
